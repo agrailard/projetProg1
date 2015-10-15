@@ -7,7 +7,7 @@ public class Telephone extends Article {
 	public Telephone(){
 		super();
 	}
-	
+	//test
 	public Telephone(String reference, String intitule, double prix,Operateur operateur) {
 		// TODO - implement telephone.telephone
 		super(reference,intitule,prix);
