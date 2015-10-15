@@ -8,7 +8,7 @@ public class Telephone extends Article {
 		super();
 	}
 	
-	public Telephone(String reference, String intitule, float prix,Operateur operateur) {
+	public Telephone(String reference, String intitule, double prix,Operateur operateur) {
 		// TODO - implement telephone.telephone
 		super(reference,intitule,prix);
 		this.operateur=operateur;

@@ -23,22 +23,18 @@ import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import classes.Accessoire;
-import classes.Article;
-import classes.Chargeur;
-import classes.Coque;
-import classes.Cordon;
-import classes.ListeArticle;
-import classes.Operateur;
-import classes.Telephone;
+import classes.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class design implements ActionListener {
 
+	private static final String STATIC_ACCESS = "static-access";
 	private JFrame frame;
 	private ListeArticle listeArticles = new ListeArticle();
 	private JList<Article> listeDeroul;
@@ -61,7 +57,9 @@ public class design implements ActionListener {
 	
 	ArrayList listeTelephone = new ArrayList<Telephone>();
 	ArrayList listeOperateur = new ArrayList<Operateur>();
-	
+	ArrayList listeOperateurString = new ArrayList<String>();
+	ArrayList type = new ArrayList<String>();
+	ArrayList listTelcompa = new ArrayList<Telephone>();
 	private JButton btnAjoutAccessoire;
 	private JButton btnAjoutTelephone;
 	private JButton btnAjoutOperateur;
@@ -71,6 +69,12 @@ public class design implements ActionListener {
    JTextField prix = new JTextField();
    JTextField compatible = new JTextField();
    JComboBox operateur = new JComboBox();
+   JTextField reponse = new JTextField();
+   JTextField reponseCoque = new JTextField();
+   JComboBox listeTel;
+   
+   char c;
+   boolean virgule=false;
 
 	/**
 	 * Launch the application.
@@ -159,6 +163,9 @@ public class design implements ActionListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		type.add("Chargeur");
+		type.add("Cordon");
+		type.add("Coque");
 		frame = new JFrame();
 		frame.setTitle("Inventaire des articles");
 		frame.setSize(600, 400);
@@ -235,7 +242,7 @@ public class design implements ActionListener {
 	 * si égal à autre chose : ne se passe rien
 	 */
 	private void initListeArticles(String tri){
-		listeArticles.vider();
+		//listeArticles.vider();
 		Operateur free = new Operateur(1,"free");
 		Operateur orange = new Operateur(2,"Orange");
 		Operateur bouygues = new Operateur(3,"Bouygues Telecom");
@@ -287,73 +294,167 @@ public class design implements ActionListener {
 	};
 	
 	public void actionPerformed(ActionEvent evt) {
-	   Object source = evt.getSource();
-	   if (source == btnSauvegarder){
-/* -------------------------------------------------------------------------------- */
-			try {
-				listeArticles.sauvegarde("save.txt");
-				JOptionPane.showMessageDialog(btnSauvegarder,
-	                 "Fichier sauvegardé!");
-			} catch (IOException e) {
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(btnSauvegarder,
-	                 "Une Erreur est survenu : "+e.getMessage());
-			}
-	   }else if(source == btnAjoutAccessoire){
+		   ref.addKeyListener(keyListener);
+		   prix.addKeyListener(keyListener);
+		   reponseCoque.addKeyListener(keyListener);
+		   Object source = evt.getSource();
+		   if (source == btnSauvegarder){
 
-		Object[] message = {
-				    "Reference de l'article: ", ref,
-				    "Libelle : ", libelle,
-				    "Prix : " , prix,
-				    "Telephone compatible(s) :" ,compatible
-				};
-				int option = JOptionPane.showConfirmDialog(null, message, "Ajout d'un accessoire", JOptionPane.OK_CANCEL_OPTION);
-				
-	   }else if(source == btnAjoutTelephone){
-
-				int a=listeOperateur.size();
-				String[] test= new String[a];
-				for(int i=0;i<a;i++){
-					test[i]=listeOperateur.get(i).toString();
+				try {
+					listeArticles.sauvegarde("save.txt");
+					/* ******************************************************************************** */
+					JOptionPane.showMessageDialog(btnSauvegarder,
+		                 "Fichier sauvegardï¿½!");
+				} catch (IOException e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(btnSauvegarder,
+		                 "Une Erreur est survenu : "+e.getMessage());
 				}
-				Object[] message = {
-					    "Reference : ", ref,
-					    "Nom : ", libelle,
+		   }else if(source == btnAjoutAccessoire){
+			virgule=false;
+			JComboBox typeAccessoire = new JComboBox(type.toArray(new String[type.size()]));
+			Object[] message = {
+					    "Reference de l'article: ", ref,
+					    "Libelle : ", libelle,
+					    "Type d'accessoire : ", typeAccessoire,
 					    "Prix : " , prix,
-					    "Operateur :" ,""
 					};
-				
-			    JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
-			    String nom = (String)jop.showInputDialog(null,message,"rrrrr",JOptionPane.QUESTION_MESSAGE,null,test,a);
-				
-				if(ref.getText().isEmpty()||libelle.getText().isEmpty()||prix.getText().isEmpty()){
-					JOptionPane.showMessageDialog(null,
-	                        "Un ou plusieurs champ sont vides!");
+					int option = JOptionPane.showConfirmDialog(null, message, "Ajout d'un accessoire", JOptionPane.OK_CANCEL_OPTION);
+					 if(option!=JOptionPane.OK_CANCEL_OPTION){
+						 if(typeAccessoire.getSelectedItem().toString().equalsIgnoreCase("Chargeur")){
+							Object[] messageCh = { "Type de chargeur : ",reponse};
+							 int option2 = JOptionPane.showConfirmDialog(null, messageCh, "Ajout d'un chargeur", JOptionPane.OK_CANCEL_OPTION);
+							 if(option2!=JOptionPane.OK_CANCEL_OPTION){
+								 listeArticles.ajouterArticle(new Chargeur(new Accessoire(ref.getText(), libelle.getText(),Double.parseDouble(prix.getText()) , utilisateurAjouterTel()),reponse.getText()));
+							 }
+						 }else if(typeAccessoire.getSelectedItem().toString().equalsIgnoreCase("Cordon")){
+							Object[] messageCo = { "Longueur du cordon : ",reponse};
+							int option2 = JOptionPane.showConfirmDialog(null, messageCo, "Ajout d'un cordon", JOptionPane.OK_CANCEL_OPTION);
+							if(option2!=JOptionPane.OK_CANCEL_OPTION){
+								listeArticles.ajouterArticle(new Chargeur(new Accessoire(ref.getText(), libelle.getText(),Double.parseDouble(prix.getText()) , utilisateurAjouterTel()),reponse.getText()));
+							}
+						 }else{
+							Object[] messageCoq = { "Couleur de la coque : ",reponseCoque};
+							int option2 = JOptionPane.showConfirmDialog(null, messageCoq, "Ajout d'une coque", JOptionPane.OK_CANCEL_OPTION);
+							if(option2!=JOptionPane.OK_CANCEL_OPTION){
+								listeArticles.ajouterArticle(new Chargeur(new Accessoire(ref.getText(), libelle.getText(),Double.parseDouble(prix.getText()) , utilisateurAjouterTel()),reponseCoque.getText()));
+							}
+						 }
+					}
+					optionsClear();
+					initJList();
+		   }else if(source == btnAjoutTelephone){
+				virgule=false;
+					int a=listeOperateur.size();
+					String[] test= new String[a];
+					for(int i=0;i<a;i++){
+						test[i]=listeOperateur.get(i).toString();
+					}
+					JComboBox ope = new JComboBox(listeOperateurString.toArray(new String[listeOperateurString.size()]));
+					Object[] message = {
+						    "Reference : ", ref,
+						    "Nom : ", libelle,
+						    "Prix : " , prix,
+						    "Operateur :" ,ope
+						};
+					
+				    JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
+				    int option = JOptionPane.showConfirmDialog(null, message, "Ajout d'un telephone", JOptionPane.OK_CANCEL_OPTION);
+				    if(option!=JOptionPane.OK_CANCEL_OPTION){
+						if(ref.getText().isEmpty()||libelle.getText().isEmpty()||prix.getText().isEmpty()){
+							JOptionPane.showMessageDialog(null,
+			                        "Un ou plusieurs champ sont restés vides!");
+						}
+						else{
+							Telephone tel = new Telephone(ref.getText(),libelle.getText(),Double.parseDouble(prix.getText()),recupOpe(ope.getSelectedItem().toString()));
+							listeArticles.ajouterArticle(tel);
+							listeTelephone.add(tel);
+						}
+				    }
+					optionsClear();
+					initJList();
+		   }else if(source == btnAjoutOperateur){
+			   Object[] message = {
+					    "Identifiant : ", ref,
+					    "Nom : ", libelle,
+					}; 
+			   int option = JOptionPane.showConfirmDialog(null, message, "Ajout d'un operateur", JOptionPane.OK_CANCEL_OPTION);
+			   if(option!=JOptionPane.OK_CANCEL_OPTION){
+				   if(ref.getText().isEmpty()||libelle.getText().isEmpty()){
+						JOptionPane.showMessageDialog(null,
+		                    "Un ou plusieurs champ sont restés vides!");
+					}
+					else{
+						Operateur op = new Operateur(Integer.parseInt(ref.getText()),libelle.getText());
+						listeOperateur.add(op);
+						listeOperateurString.add(op.getLibelle());
+					}
+			   }
+			   optionsClear();
+		   }
+			 
+
+		}
+		
+		private Operateur recupOpe(String opeSelectionne){
+			for(int i=0;i<listeOperateur.size();i++){
+				Operateur o = (Operateur) listeOperateur.get(i);
+				if(o.getLibelle().equalsIgnoreCase(opeSelectionne)){
+					return o;
+				}
+			}
+			return null;
+		}
+		private ArrayList<Telephone> utilisateurAjouterTel() {
+			
+			int option=JOptionPane.OK_OPTION;
+			listeTel = new JComboBox(listeTelephone.toArray(new Telephone[listeTelephone.size()]));
+			JOptionPane jop = new JOptionPane();
+			while(option == JOptionPane.OK_OPTION){
+				if(listeTel.getItemCount()==0){
+					option = jop.showConfirmDialog(null, "Vous avez dï¿½jï¿½ ajoutï¿½ tous les tï¿½lï¿½phones de la liste, veuillez ajouter un nouveau telephone avant de conitnuer.", "Ajout d'un telephone"
+							, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				}
 				else{
-					Telephone tel = new Telephone(ref.getText(),libelle.getText(),Float.parseFloat(prix.getText()),new Operateur(1,"free"));
-					listeTelephone.add(tel);
+					Object[] ajout={ "Telephone compatible(s) :" ,listeTel};
+					jop.showConfirmDialog(null, ajout, "Ajout d'un telephone", JOptionPane.OK_CANCEL_OPTION);
+					Object a=listeTel.getSelectedItem();  
+					listeTel.removeItem(a);
+					option = jop.showConfirmDialog(null, "Un telephone a ï¿½tï¿½ ajoutï¿½, voulez-vous en ajouter un autre ?", "Ajout d'un telephone"
+							, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				}
-				
-				
-	   }else if(source == btnAjoutOperateur){
-		   Object[] message = {
-				    "Identifiant : ", ref,
-				    "Nom : ", libelle,
-				}; 
-		   int option = JOptionPane.showConfirmDialog(null, message, "Ajout d'un operateur", JOptionPane.OK_CANCEL_OPTION);
-		   if(ref.getText().isEmpty()||libelle.getText().isEmpty()){
-				JOptionPane.showMessageDialog(null,
-                    "Un ou plusieurs champ sont vides!");
 			}
-			else{
-				Operateur op = new Operateur(Integer.parseInt(ref.getText()),libelle.getText());
-				listeOperateur.add(op.getLibelle());
-			}
-		   ref.setText("");
-		   libelle.setText("");
-	   }
-		 
-/* -------------------------------------------------------------------------------- */
+			return listTelcompa;		
+		}
+		private void optionsClear() {
+			ref.setText("");
+			libelle.setText("");
+			prix.setText("");	
+		}
+		
+		KeyListener keyListener = new KeyListener() {
+		  public void keyPressed(KeyEvent keyEvent) {
+		        c = keyEvent.getKeyChar();
+		      }
+
+	      public void keyReleased(KeyEvent keyEvent) {	      
+	      }
+
+	      public void keyTyped(KeyEvent keyEvent) {
+	    	  Object source = keyEvent.getSource();
+	    	  
+	    	  if (!((c >= '0') && (c <= '9') || (c == KeyEvent.VK_BACK_SPACE))) {
+		      	  	if((source==prix && c=='.' || source==reponseCoque) && virgule!=true){
+		      	  		if(c=='.'){
+			    	  		virgule=true;
+		      	  		}
+		      	  	}
+		      	  	else{
+			        	keyEvent.consume();
+		      	  	}
+		          }
+	      }
+		};
+		
+		/* -------------------------------------------------------------------------------- */
 	}
-}
