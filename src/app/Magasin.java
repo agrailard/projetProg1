@@ -1,9 +1,17 @@
-package MiniProjet;
+package app;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import classes.Accessoire;
+import classes.Chargeur;
+import classes.Coque;
+import classes.Cordon;
+import classes.ListeArticle;
+import classes.Operateur;
+import classes.Telephone;
 
 public class Magasin {
 

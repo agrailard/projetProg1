@@ -1,4 +1,4 @@
-package MiniProjet;
+package classes;
 public class Cordon extends Accessoire {
 
 	private float longueur; //Longueur du cordon en cm

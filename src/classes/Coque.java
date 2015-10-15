@@ -1,4 +1,4 @@
-package MiniProjet;
+package classes;
 public class Coque extends Accessoire {
 
 	private String couleur;

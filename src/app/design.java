@@ -1,4 +1,4 @@
-package MiniProjet;
+package app;
 
 import java.awt.EventQueue;
 import java.io.IOException;
@@ -22,6 +22,15 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import classes.Accessoire;
+import classes.Article;
+import classes.Chargeur;
+import classes.Coque;
+import classes.Cordon;
+import classes.ListeArticle;
+import classes.Operateur;
+import classes.Telephone;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

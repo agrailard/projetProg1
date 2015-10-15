@@ -1,4 +1,4 @@
-package MiniProjet;
+package classes;
 import java.util.*;
 
 public class Accessoire extends Article {

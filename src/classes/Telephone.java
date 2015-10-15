@@ -1,4 +1,4 @@
-package MiniProjet;
+package classes;
 
 public class Telephone extends Article {
 	

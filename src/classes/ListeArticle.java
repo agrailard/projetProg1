@@ -1,4 +1,4 @@
-package MiniProjet;
+package classes;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;

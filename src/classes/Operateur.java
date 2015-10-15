@@ -1,4 +1,4 @@
-package MiniProjet;
+package classes;
 public class Operateur {
 
 	private int identifiant;

@@ -1,4 +1,4 @@
-package MiniProjet;
+package classes;
 public class Chargeur extends Accessoire {
 
 	private String type;
