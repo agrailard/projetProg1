@@ -3,6 +3,8 @@ package classes;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import org.jdom2.Element;
+
 /**
  * Classe Article
  * @author E113155U
@@ -29,6 +31,12 @@ public class Article implements Comparable{
 	}
 	
 	//Getters et setters
+	public Object getAttribut(Field field) {
+		if(field.getName().equals("reference")) return this.reference;
+		else if(field.getName().equals("intitule")) return this.intitule;
+		else if(field.getName().equals("prix")) return this.prix;
+		else return null;
+	}
 	
 	public String getReference() {
 		return this.reference;
@@ -54,10 +62,6 @@ public class Article implements Comparable{
 		this.prix = prix;
 	}
 	
-	public Field[] getFields(){
-		return getClass().getDeclaredFields();
-	}
-	
 	//Méthodes
 	
 	/**
@@ -75,6 +79,24 @@ public class Article implements Comparable{
 	public int compareTo(Object arg0) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public Element toXml(){
+		Element classe = new Element("Article");
+		
+		Element attribut = new Element("reference");
+		classe.addContent(attribut);
+		attribut.setText(reference);
+		
+		attribut = new Element("intitule");
+		classe.addContent(attribut);
+		attribut.setText(intitule);
+		
+		attribut = new Element("prix");
+		classe.addContent(attribut);
+		attribut.setText(Double.toString(prix));
+		
+		return classe;
 	}
 	
 

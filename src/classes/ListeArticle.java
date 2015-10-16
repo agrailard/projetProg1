@@ -72,44 +72,10 @@ public class ListeArticle {
 	public void toXml() {
 		
 		Element article;
-		Attribute type;
-		String libelleType;
-		Element typeArticle;
-		Element attribut;
-		Field[] attributs;
-		Class classe;
-		Map <String, String> tabAttributs;
-		Map <String, Method> getters = new HashMap<String, Method>();
 		
 		for (Article unArticle : listeArticles) {
-			article = new Element("Article");
+			article = unArticle.toXml();
 			racine.addContent(article);
-			
-			libelleType = unArticle.getClass().getSuperclass().getSimpleName();
-			if(libelleType.equalsIgnoreCase("Article")) libelleType = "Telephone";
-			type = new Attribute("type", libelleType);
-			article.setAttribute(type);
-			
-			typeArticle = new Element(unArticle.getClass().getSimpleName());
-			article.addContent(typeArticle);
-			
-			tabAttributs = new HashMap<String, String>();
-			classe = unArticle.getClass();
-			attributs = classe.getDeclaredFields();
-			
-			while(!classe.getSimpleName().equals("Object")){
-				for (Field field : attributs) {
-					//tabAttributs.add(field.getName().toString());
-				}
-				classe = classe.getSuperclass();
-				attributs = classe.getDeclaredFields();
-			}
-			
-			/*for (String unAttribut : tabAttributs) {
-				attribut = new Element(unAttribut);
-				typeArticle.addContent(attribut);
-				//attribut.setText();
-			}*/
 		}
 	}
 	

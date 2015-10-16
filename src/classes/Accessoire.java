@@ -1,6 +1,8 @@
 package classes;
 import java.util.*;
 
+import org.jdom2.Element;
+
 public class Accessoire extends Article {
 	private ArrayList<Telephone> listeTelephones;
 
@@ -50,6 +52,22 @@ public class Accessoire extends Article {
 	public int compareTo(Object arg0) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	public Element toXml() {
+		Element classe = super.toXml();
+		classe.setAttribute("type", "Accessoire");
+		Element attribut = new Element("listeTelephone");
+		Element telephones= new Element("Telephones");
+		Element intitule;
+		attribut.addContent(telephones);
+		for (Telephone telephone : listeTelephones) {
+			intitule = new Element("intitule");
+			telephones.addContent(intitule);
+			intitule.setText(telephone.getIntitule());
+		}
+		classe.addContent(attribut);
+		return classe;
 	}
 
 }

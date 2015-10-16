@@ -1,5 +1,7 @@
 package classes;
 
+import org.jdom2.Element;
+
 public class Telephone extends Article {
 	
 	private Operateur operateur;
@@ -22,6 +24,15 @@ public class Telephone extends Article {
 		String chaine = super.toString();
 		chaine += "Opérateur : " + this.operateur.getLibelle() + "\n";
 		return chaine;
+	}
+	
+	public Element toXml() {
+		Element classe = super.toXml();
+		classe.setAttribute("type", "Telephone");
+		Element attribut = new Element("operateur");
+		attribut.setText(operateur.getLibelle());
+		
+		return classe;
 	}
 
 }
