@@ -1,4 +1,7 @@
 package classes;
+
+import org.jdom2.Element;
+
 public class Chargeur extends Accessoire {
 
 	private String type;
@@ -41,6 +44,15 @@ public class Chargeur extends Accessoire {
 		String chaine = super.toString();
 		chaine += "Type : \t\t" + this.type + "\n";
 		return chaine;
+	}
+	
+	public Element toXml() {
+		Element classe = super.toXml();
+		Element attribut = new Element("type");
+		attribut.addContent(this.type);
+		classe.addContent(attribut);
+		
+		return classe;
 	}
 
 

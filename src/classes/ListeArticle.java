@@ -1,4 +1,5 @@
 package classes;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -77,6 +78,19 @@ public class ListeArticle {
 			article = unArticle.toXml();
 			racine.addContent(article);
 		}
+	}
+	
+	public void enregistreXml(String fichier)
+	{
+	   try
+	   {
+	      //On utilise ici un affichage classique avec getPrettyFormat()
+	      XMLOutputter sortie = new XMLOutputter(Format.getPrettyFormat());
+	      //Remarquez qu'il suffit simplement de créer une instance de FileOutputStream
+	      //avec en argument le nom du fichier pour effectuer la sérialisation.
+	      sortie.output(document, new FileOutputStream(fichier));
+	   }
+	   catch (java.io.IOException e){}
 	}
 	
 	public void afficheToXml() {

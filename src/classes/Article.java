@@ -99,5 +99,8 @@ public class Article implements Comparable{
 		return classe;
 	}
 	
+	public void reverseToXml() {
+		
+	}
 
 }

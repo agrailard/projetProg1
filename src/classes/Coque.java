@@ -1,4 +1,7 @@
 package classes;
+
+import org.jdom2.Element;
+
 public class Coque extends Accessoire {
 
 	private String couleur;
@@ -41,6 +44,15 @@ public class Coque extends Accessoire {
 		String chaine = super.toString();
 		chaine += "Couleur : \t" + this.couleur + "\n";
 		return chaine;
+	}
+	
+	public Element toXml() {
+		Element classe = super.toXml();
+		Element attribut = new Element("couleur");
+		attribut.addContent(this.couleur);
+		classe.addContent(attribut);
+		
+		return classe;
 	}
 
 

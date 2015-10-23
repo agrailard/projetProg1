@@ -1,4 +1,7 @@
 package classes;
+
+import org.jdom2.Element;
+
 public class Cordon extends Accessoire {
 
 	private float longueur; //Longueur du cordon en cm
@@ -41,6 +44,15 @@ public class Cordon extends Accessoire {
 		String chaine = super.toString();
 		chaine += "Longueur : \t" + this.longueur + " cm\n";
 		return chaine;
+	}
+	
+	public Element toXml() {
+		Element classe = super.toXml();
+		Element attribut = new Element("longueur");
+		attribut.addContent(Double.toString(this.longueur));
+		classe.addContent(attribut);
+		
+		return classe;
 	}
 
 }
