@@ -48,11 +48,6 @@ public class Accessoire extends Article {
 		}
 		return chaine;
 	}
-
-	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
 	public Element toXml() {
 		Element classe = super.toXml();

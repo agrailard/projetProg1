@@ -49,19 +49,23 @@ public class ListeArticle {
 		for(int i=0;i<listeArticles.size();i++)
 		System.out.println(listeArticles.get(i).getReference()+" nom :"+listeArticles.get(i).getIntitule());
 	}
-	
+	//Methode permettant de trier les articles par Reference
 	public void tousLesArticles_ParRef(){
 		Collections.sort(listeArticles,new RefComparateur());
 	}
-	
+	//Methode permettant de trier par Intitule
 	public void tousLesArticles_ParIntitule(){
 		Collections.sort(listeArticles,new IntituleComparateur());
 	}
-	
+	//idem mais par prix
 	public void tousLesArticles_ParPrix(){
 		Collections.sort(listeArticles,new PrixComparateur());
 	}
-	
+	//Methode permettant de sauveegarder les articles dans un fichier txt
+	/**
+	 * 
+	 * @param nomFic : Nom du fichier dans lequel les articles seront sauvegarder
+	 */
 	public void sauvegarde(String nomFic) throws IOException{
 		FileWriter fw = new FileWriter(nomFic);
 		for(int i=0;i<listeArticles.size();i++){
@@ -105,15 +109,17 @@ public class ListeArticle {
 		   catch (java.io.IOException e){}
 	}
 	
+	// retourne le nombre d'articles
 	public int compter(){
 		return this.listeArticles.size();
 	}
 	
+	//getter d'article
 	public Article getArticle(int i) {
 		return listeArticles.get(i);
 	}
 
-
+	//vide la liste d'articles
 	public void vider() {
 		listeArticles.clear();
 	}

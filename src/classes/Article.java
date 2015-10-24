@@ -18,12 +18,13 @@ public class Article implements Comparable{
 	private String intitule;
 	private double prix;
 	
-	//Constructeur
+	//Constructeur vide
 	
 	public Article(){
 		
 	}
 
+	//Constructeur avec parametres, reference, nom et prix
 	public Article(String ref, String nom, double prix){
 		reference=ref;
 		intitule=nom;
