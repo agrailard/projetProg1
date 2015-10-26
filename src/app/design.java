@@ -312,6 +312,9 @@ public class design implements ActionListener {
 			}
 		} else if (source == btnAjoutAccessoire) {
 			virgule = false;
+			type.add("Chargeur");
+			type.add("Coque");
+			type.add("Cordon");
 			JComboBox typeAccessoire = new JComboBox(type.toArray(new String[type.size()]));
 			Object[] message = { "Reference de l'article: ", ref, "Libelle : ", libelle, "Type d'accessoire : ",
 					typeAccessoire, "Prix : ", prix, };
@@ -415,16 +418,16 @@ public class design implements ActionListener {
 		JOptionPane jop = new JOptionPane();
 		while (option == JOptionPane.OK_OPTION) {
 			if (listeTel.getItemCount() == 0) {
-				option = jop.showConfirmDialog(null,
-						"Vous avez dï¿½jï¿½ ajoutï¿½ tous les tï¿½lï¿½phones de la liste, veuillez ajouter un nouveau telephone avant de conitnuer.",
-						"Ajout d'un telephone", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				jop.showMessageDialog(null,
+						"La liste des téléphones est vide ou tous les éléments ont déjà  été sélectionés, veuillez ajouter un nouveau telephone avant de continuer.");
+				option = JOptionPane.CANCEL_OPTION;
 			} else {
 				Object[] ajout = { "Telephone compatible(s) :", listeTel };
 				jop.showConfirmDialog(null, ajout, "Ajout d'un telephone", JOptionPane.OK_CANCEL_OPTION);
 				Object a = listeTel.getSelectedItem();
 				listeTel.removeItem(a);
 				option = jop.showConfirmDialog(null,
-						"Un telephone a ï¿½tï¿½ ajoutï¿½, voulez-vous en ajouter un autre ?", "Ajout d'un telephone",
+						"Un telephone a était ajouté, voulez-vous en ajouter un autre ?", "Ajout d'un telephone",
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			}
 		}
