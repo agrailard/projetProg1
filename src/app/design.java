@@ -166,7 +166,7 @@ public class design implements ActionListener {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Inventaire des articles");
-		frame.setSize(600, 400);
+		frame.setSize(950, 400);
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
