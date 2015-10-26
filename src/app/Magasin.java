@@ -77,7 +77,7 @@ public class Magasin {
 		liste.afficher();
 		liste.sauvegarde("save.txt");
 		
-		liste.afficheToXml();
+		//liste.afficheToXml();
 		liste.enregistreXml("inventaire.xml");
 	}
 

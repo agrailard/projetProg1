@@ -86,6 +86,7 @@ public class ListeArticle {
 	
 	public void enregistreXml(String fichier)
 	{
+		toXml();
 	   try
 	   {
 	      //On utilise ici un affichage classique avec getPrettyFormat()
