@@ -269,7 +269,7 @@ public class Magasin implements ActionListener {
 
 		
 	}
-	/**
+	/***
 	 @param tri : si égal à "ref" tri par références,
 	 * si égal à "prix" tri par prix et
 	 * si égal à "int", tri par nom
