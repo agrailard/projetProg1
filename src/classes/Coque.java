@@ -1,5 +1,6 @@
 package classes;
-
+//Grailard Arthur
+//Fabien Ganivet
 import org.jdom2.Element;
 
 public class Coque extends Accessoire {

@@ -1,5 +1,6 @@
 package classes;
-
+//Grailard Arthur
+//Fabien Ganivet
 import java.util.Comparator;
 
 public class IntituleComparateur implements Comparator<Article>{

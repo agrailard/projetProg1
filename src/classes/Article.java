@@ -1,5 +1,6 @@
 package classes;
-
+//Grailard Arthur
+//Fabien Ganivet
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
@@ -7,7 +8,6 @@ import org.jdom2.Element;
 
 /**
  * Classe Article
- * @author E113155U
  *
  */
 public class Article implements Comparable{

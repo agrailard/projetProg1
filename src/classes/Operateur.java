@@ -1,4 +1,6 @@
 package classes;
+//Grailard Arthur
+//Fabien Ganivet
 public class Operateur {
 
 	private int identifiant;

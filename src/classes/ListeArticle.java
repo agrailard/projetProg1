@@ -1,4 +1,6 @@
 package classes;
+//Grailard Arthur
+//Fabien Ganivet
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -89,6 +91,12 @@ public class ListeArticle {
 	public void enregistreXml(String fichier)
 	{
 		toXml();
+		try{
+			document.removeContent();
+		}catch(Exception e){
+			//fichier inexistant ce qui en soit n'est pas important au  début car il peut être
+			//créer par l'utilisateur.
+		}
 	   try
 	   {
 	      //On utilise ici un affichage classique avec getPrettyFormat()

@@ -1,4 +1,6 @@
 package classes;
+//Grailard Arthur
+//Fabien Ganivet
 import java.util.*;
 
 import org.jdom2.Element;
