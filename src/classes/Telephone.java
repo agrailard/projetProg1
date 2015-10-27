@@ -30,7 +30,10 @@ public class Telephone extends Article {
 		Element classe = super.toXml();
 		classe.setAttribute("type", "Telephone");
 		Element attribut = new Element("operateur");
+		attribut.setAttribute("id", Integer.toString(operateur.getIdentifiant()));
 		attribut.setText(operateur.getLibelle());
+		
+		classe.addContent(attribut);
 		
 		return classe;
 	}

@@ -157,7 +157,7 @@ public class ListeArticle {
       Coque coque;
       Cordon cordon;
       Telephone telephone;
-      Operateur operateur = null;
+      Operateur operateur;
 
       //On crée un Iterator sur notre liste
       Iterator i = listeArticles.iterator();
@@ -181,6 +181,7 @@ public class ListeArticle {
         		 liste.ajouterArticle(cordon);
         	 }
          } else if(courant.getAttribute("type").getValue().equals("Telephone")) {
+        	 operateur = new Operateur(Integer.valueOf(courant.getChild("operateur").getAttributeValue("id")), courant.getChildText("operateur"));
         	 telephone = new Telephone(courant.getChildText("reference"), courant.getChildText("intitule"), Double.valueOf(courant.getChildText("prix")), operateur);
         	 liste.ajouterArticle(telephone);
          }
