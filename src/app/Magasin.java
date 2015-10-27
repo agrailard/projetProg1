@@ -54,7 +54,6 @@ public class Magasin implements ActionListener {
 	private JLabel lblAccessoire = new JLabel("");
 	private JLabel lblTxtAccessoire = new JLabel("");
 	
-	ArrayList listeTelephone = new ArrayList<Telephone>();
 	ArrayList listeOperateur = new ArrayList<Operateur>();
 	ArrayList listeOperateurString = new ArrayList<String>();
 	ArrayList type = new ArrayList<String>();
@@ -63,6 +62,7 @@ public class Magasin implements ActionListener {
 	private JButton btnAjoutAccessoire;
 	private JButton btnAjoutTelephone;
 	private JButton btnAjoutOperateur;
+	private JButton btnSuppr;
 	
 	JTextField ref = new JTextField();
 	JTextField libelle = new JTextField();
@@ -71,7 +71,8 @@ public class Magasin implements ActionListener {
 	JComboBox operateur = new JComboBox();
 	JTextField reponse = new JTextField();
 	JTextField reponseCoque = new JTextField();
-	JComboBox listeTel;;
+	JComboBox listeTel;
+	JComboBox listeArt;
    
 
 	char c;
@@ -97,29 +98,26 @@ public class Magasin implements ActionListener {
 	 * Create the application.
 	 */
 	public Magasin() {
-		initListeArticles("int");
+		initListeArticles();
 		initJList();
 		initialize();
 		
 		btnTrierParRfrence.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				initListeArticles("ref");
-				initJList();
+				trier("ref");
 			}
 		});
 		btnTrierParPrix.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				initListeArticles("prix");
-				initJList();
+				trier("prix");
 			}
 		});
 		btnTrierParNom.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				initListeArticles("int");
-				initJList();
+				trier("int");
 			}
 		});
 	}
@@ -143,23 +141,6 @@ public class Magasin implements ActionListener {
 		
 		listeDeroul.addListSelectionListener(listener);
 	}
-	
-	/*public String classeArticle(Article unArticle) {
-		try {
-			if(unArticle.getClass()==Class.forName("Telephone")){
-				return "Opérateur";
-			}
-			else if (unArticle.getClass()==Class.forName("Accessoire")) {
-				return "Liste des téléphones";
-			}
-			else
-			
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
-
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -179,6 +160,10 @@ public class Magasin implements ActionListener {
 		btnAjoutAccessoire = new JButton("Ajouter un accessoire");
 		btnAjoutAccessoire.addActionListener(this);
 		menu.add(btnAjoutAccessoire);
+		
+		btnSuppr = new JButton("Supprimer un Article");
+		btnSuppr.addActionListener(this);
+		menu.add(btnSuppr);
 		
 		btnAjoutTelephone = new JButton("Ajouter un Telephone");
 		btnAjoutTelephone.addActionListener(this);
@@ -237,16 +222,20 @@ public class Magasin implements ActionListener {
 	}
 	/**
 	 * Initialise les données des articles (pour les tests)
-	 * @param tri : si égal à "ref" tri par références,
-	 * si égal à "prix" tri par prix et
-	 * si égal à "int", tri par nom
-	 * si égal à autre chose : ne se passe rien
+	 *
 	 */
-	private void initListeArticles(String tri){
+	private void initListeArticles(){
 		listeArticles.vider();
 		Operateur free = new Operateur(1,"free");
 		Operateur orange = new Operateur(2,"Orange");
 		Operateur bouygues = new Operateur(3,"Bouygues Telecom");
+		listeOperateur.add(free);
+		listeOperateur.add(orange);
+		listeOperateur.add(bouygues);
+		listeOperateurString.add("free");
+		listeOperateurString.add("orange");
+		listeOperateurString.add("bouygues");
+		
 		Telephone tel1 = new Telephone("1548","iphone4",420,free);
 		Telephone tel2 = new Telephone("1549","Nokia 3310",50,orange);
 		Telephone tel3 = new Telephone("1550","Samsung Galaxy",100,free);
@@ -277,10 +266,20 @@ public class Magasin implements ActionListener {
 		listeArticles.ajouterArticle(chargeurNokia);
 		listeArticles.ajouterArticle(cordon);
 		
+
+		
+	}
+	/**
+	 @param tri : si égal à "ref" tri par références,
+	 * si égal à "prix" tri par prix et
+	 * si égal à "int", tri par nom
+	 * si égal à autre chose : ne se passe rien
+	 */
+	private void trier(String tri){
 		if(tri=="ref") listeArticles.tousLesArticles_ParRef();
 		else if (tri=="int") listeArticles.tousLesArticles_ParIntitule();
 		else if (tri=="prix") listeArticles.tousLesArticles_ParPrix();
-		
+		initJList();
 	}
 	/**
 	 * Ecouteur du changement d'option dans la Jlist
@@ -308,11 +307,12 @@ public class Magasin implements ActionListener {
 			try {
 				if(rang == 0){
 					listeArticles.sauvegarde("save.txt");
+					JOptionPane.showMessageDialog(btnSauvegarder, "Fichier sauvegardé");
 				}
 				else if(rang ==1){
-					listeArticles.enregistreXml("inventaire.xml");			
+					listeArticles.enregistreXml("inventaire.xml");	
+					JOptionPane.showMessageDialog(btnSauvegarder, "Fichier sauvegardé");
 				}
-				JOptionPane.showMessageDialog(btnSauvegarder, "Fichier sauvegardé");
 			} catch (IOException e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(btnSauvegarder, "Une Erreur est survenu : " + e.getMessage());
@@ -334,7 +334,7 @@ public class Magasin implements ActionListener {
 						listeArticles
 								.ajouterArticle(new Chargeur(
 										new Accessoire(ref.getText(), libelle.getText(),
-												Double.parseDouble(prix.getText()), utilisateurAjouterTel()),
+												Double.parseDouble(prix.getText()), AjoutListTel()),
 										reponse.getText()));
 					}
 				} else if (typeAccessoire.getSelectedItem().toString().equalsIgnoreCase("Cordon")) {
@@ -345,7 +345,7 @@ public class Magasin implements ActionListener {
 						listeArticles
 								.ajouterArticle(new Chargeur(
 										new Accessoire(ref.getText(), libelle.getText(),
-												Double.parseDouble(prix.getText()), utilisateurAjouterTel()),
+												Double.parseDouble(prix.getText()), AjoutListTel()),
 										reponse.getText()));
 					}
 				} else {
@@ -356,7 +356,7 @@ public class Magasin implements ActionListener {
 						listeArticles
 								.ajouterArticle(new Chargeur(
 										new Accessoire(ref.getText(), libelle.getText(),
-												Double.parseDouble(prix.getText()), utilisateurAjouterTel()),
+												Double.parseDouble(prix.getText()), AjoutListTel()),
 										reponseCoque.getText()));
 					}
 				}
@@ -364,30 +364,8 @@ public class Magasin implements ActionListener {
 			optionsClear();
 			initJList();
 		} else if (source == btnAjoutTelephone) {
-			virgule = false;
-			int a = listeOperateur.size();
-			String[] test = new String[a];
-			for (int i = 0; i < a; i++) {
-				test[i] = listeOperateur.get(i).toString();
-			}
-			JComboBox ope = new JComboBox(listeOperateurString.toArray(new String[listeOperateurString.size()]));
-			Object[] message = { "Reference : ", ref, "Nom : ", libelle, "Prix : ", prix, "Operateur :", ope };
-
-			JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
-			int option = JOptionPane.showConfirmDialog(null, message, "Ajout d'un telephone",
-					JOptionPane.OK_CANCEL_OPTION);
-			if (option != JOptionPane.OK_CANCEL_OPTION) {
-				if (ref.getText().isEmpty() || libelle.getText().isEmpty() || prix.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Un ou plusieurs champ sont restés vides!");
-				} else {
-					Telephone tel = new Telephone(ref.getText(), libelle.getText(), Double.parseDouble(prix.getText()),
-							recupOpe(ope.getSelectedItem().toString()));
-					listeArticles.ajouterArticle(tel);
-					listeTelephone.add(tel);
-				}
-			}
-			optionsClear();
-			initJList();
+			createTel(true);
+			
 		} else if (source == btnAjoutOperateur) {
 			Object[] message = { "Identifiant : ", ref, "Nom : ", libelle, };
 			int option = JOptionPane.showConfirmDialog(null, message, "Ajout d'un operateur",
@@ -403,9 +381,64 @@ public class Magasin implements ActionListener {
 			}
 			optionsClear();
 		}
+		else if (source == btnSuppr){
+			listeArticles.supprimerArticle(listeArticles.getArticle(listeDeroul.getSelectedIndex()));
+			trier("int");
 
+
+		}
 	}
 
+
+	private ArrayList<Telephone> AjoutListTel(){
+		createTel(false);
+		int option = JOptionPane.showConfirmDialog(null, "Ajout d'un autre telephone compatible");
+		if(option!=JOptionPane.CANCEL_OPTION && option!=JOptionPane.NO_OPTION){
+			listTelcompa.add(createTel(false));
+		}
+		return listTelcompa;
+	}
+	
+	private Telephone createTel(boolean methode){
+		Telephone tel = null ;	
+		int option;
+		optionsClear();
+		int a = listeOperateur.size();
+		String[] test = new String[a];
+		for (int i = 0; i < a; i++) {
+			test[i] = listeOperateur.get(i).toString();
+		}
+		JComboBox ope = new JComboBox(listeOperateurString.toArray(new String[listeOperateurString.size()]));
+		Object[] message = { "Reference : ", ref, "Nom : ", libelle, "Prix : ", prix, "Operateur :", ope };
+
+		JOptionPane jop = new JOptionPane(), jop2 = new JOptionPane();
+		if(methode==false)
+		{
+			option = JOptionPane.showConfirmDialog(null, message, "Ajout d'un telephone compatible",
+					JOptionPane.OK_CANCEL_OPTION);	
+		}
+		else{
+			option = JOptionPane.showConfirmDialog(null, message, "Ajout d'un telephone",
+					JOptionPane.OK_CANCEL_OPTION);
+		}
+
+		if (option != JOptionPane.OK_CANCEL_OPTION) {
+			if (ref.getText().isEmpty() || libelle.getText().isEmpty() || prix.getText().isEmpty()) {
+				JOptionPane.showMessageDialog(null, "Un ou plusieurs champ sont restés vides!");
+			} else {
+				tel = new Telephone(ref.getText(), libelle.getText(), Double.parseDouble(prix.getText()),
+						recupOpe(ope.getSelectedItem().toString()));
+				if(methode==true){
+					listeArticles.ajouterArticle(tel);
+					initJList();
+				}
+			}
+
+		}
+		optionsClear();
+		return tel;
+	}
+	
 	private Operateur recupOpe(String opeSelectionne) {
 		for (int i = 0; i < listeOperateur.size(); i++) {
 			Operateur o = (Operateur) listeOperateur.get(i);
@@ -414,29 +447,6 @@ public class Magasin implements ActionListener {
 			}
 		}
 		return null;
-	}
-
-	private ArrayList<Telephone> utilisateurAjouterTel() {
-
-		int option = JOptionPane.OK_OPTION;
-		listeTel = new JComboBox(listeTelephone.toArray(new Telephone[listeTelephone.size()]));
-		JOptionPane jop = new JOptionPane();
-		while (option == JOptionPane.OK_OPTION) {
-			if (listeTel.getItemCount() == 0) {
-				jop.showMessageDialog(null,
-						"La liste des téléphones est vide ou tous les éléments ont déjà  été sélectionés, veuillez ajouter un nouveau telephone avant de continuer.");
-				option = JOptionPane.CANCEL_OPTION;
-			} else {
-				Object[] ajout = { "Telephone compatible(s) :", listeTel };
-				jop.showConfirmDialog(null, ajout, "Ajout d'un telephone", JOptionPane.OK_CANCEL_OPTION);
-				Object a = listeTel.getSelectedItem();
-				listeTel.removeItem(a);
-				option = jop.showConfirmDialog(null,
-						"Un telephone a été ajouté, voulez-vous en ajouter un autre ?", "Ajout d'un telephone",
-						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			}
-		}
-		return listTelcompa;
 	}
 
 	private void optionsClear() {
