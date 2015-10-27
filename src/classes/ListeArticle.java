@@ -1,4 +1,5 @@
 package classes;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,6 +10,7 @@ import java.util.*;
 import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.input.SAXBuilder;
 import org.jdom2.output.Format;
 import org.jdom2.output.XMLOutputter;
 
@@ -124,6 +126,67 @@ public class ListeArticle {
 	public void vider() {
 		listeArticles.clear();
 	}
+	
+	/**
+	 * Méthode permettant de lire un fichier xml
+	 * @return une liste d'article de la classe ListeArticle
+	 */
+	public ListeArticle xmlToList() {
+		
+      //On crée une instance de SAXBuilder
+      SAXBuilder sxb = new SAXBuilder();
+      try
+      {
+         //On crée un nouveau document JDOM avec en argument le fichier XML
+         //Le parsing est terminé ;)
+         document = sxb.build(new File("inventaire.xml"));
+      }
+      catch(Exception e){}
 
+      //On initialise un nouvel élément racine avec l'élément racine du document.
+      racine = document.getRootElement();
+      
+      
+      //On crée une List contenant tous les noeuds "etudiant" de l'Element racine
+      List listeArticles = racine.getChildren("Article");
+      
+      ListeArticle liste = new ListeArticle();
+      ArrayList<Telephone> telephones;
+      Accessoire accessoire;
+      Chargeur chargeur;
+      Coque coque;
+      Cordon cordon;
+      Telephone telephone;
+      Operateur operateur = null;
+
+      //On crée un Iterator sur notre liste
+      Iterator i = listeArticles.iterator();
+      while(i.hasNext())
+      {
+         //On recrée l'Element courant à chaque tour de boucle afin de
+         //pouvoir utiliser les méthodes propres aux Element comme :
+         //sélectionner un nœud fils, modifier du texte, etc...
+         Element courant = (Element)i.next();
+         if(courant.getAttribute("type").getValue().equals("Accessoire")) {
+        	 telephones = new ArrayList<Telephone>();
+        	 accessoire = new Accessoire(courant.getChildText("reference"), courant.getChildText("intitule"), Double.valueOf(courant.getChildText("prix")), telephones);
+        	 if(courant.getChild("type")!=null) {
+        		 chargeur = new Chargeur(accessoire, courant.getChildText("type"));
+        		 liste.ajouterArticle(chargeur);
+        	 } else if(courant.getChild("couleur")!=null) {
+        		 coque = new Coque(accessoire, courant.getChildText("couleur"));
+        		 liste.ajouterArticle(coque);
+        	 } else if(courant.getChild("longueur")!=null) {
+        		 cordon = new Cordon(accessoire, Float.valueOf(courant.getChildText("longueur")));
+        		 liste.ajouterArticle(cordon);
+        	 }
+         } else if(courant.getAttribute("type").getValue().equals("Telephone")) {
+        	 telephone = new Telephone(courant.getChildText("reference"), courant.getChildText("intitule"), Double.valueOf(courant.getChildText("prix")), operateur);
+        	 liste.ajouterArticle(telephone);
+         }
+      }
+      return liste;
+   }
+	
 }
 
